@@ -19,6 +19,12 @@ enum Role {
   EMPLOYEE
 }
 
+enum TaskStatus {
+  PENDING
+  IN_PROGRESS
+  DONE
+}
+
 model User {
   user_id Int @id @default(autoincrement())
   name String 
@@ -31,6 +37,7 @@ model User {
 
 
   @@map("users")
+  tasks Task[]
 }
 
 model Customer {
@@ -44,4 +51,21 @@ model Customer {
   updatedAt DateTime @updatedAt
 
   @@map("customers")
+  tasks Task[]
+}
+
+model Task {
+  id Int @id @default(autoincrement())
+  title String
+  description String?
+  status TaskStatus @default(PENDING)
+
+  assignedToId Int
+  assignedTo User @relation(fields: [assignedToId], references: [user_id])
+
+  customerid Int
+  customer Customer @relation(fields: [customerid], references: [customer_id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
