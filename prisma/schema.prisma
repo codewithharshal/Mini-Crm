@@ -63,9 +63,11 @@ model Task {
   assignedToId Int
   assignedTo User @relation(fields: [assignedToId], references: [user_id])
 
-  customerid Int
-  customer Customer @relation(fields: [customerid], references: [customer_id])
+  customerId Int
+  customer Customer @relation(fields: [customerId], references: [customer_id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@map("tasks")
 }

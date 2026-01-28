@@ -37,7 +37,7 @@ export class TasksService {
         description: dto.description,
         status: dto.status,
         assignedToId: dto.assignedTo,
-        customerid: dto.customerId,
+        customerId: dto.customerId,
       },
     });
   }
@@ -46,7 +46,7 @@ export class TasksService {
     const where =
       currentUser.role === UserRole.ADMIN
         ? {}
-        : { assignedToId: currentUser.id };
+        : { assignedToId: currentUser.userId };
 
     return this.prisma.task.findMany({
       where,
@@ -81,7 +81,7 @@ export class TasksService {
 
     if (
       currentUser.role === UserRole.EMPLOYEE &&
-      task.assignedToId !== currentUser.id
+      task.assignedToId !== currentUser.userId
     ) {
       throw new ForbiddenException('You cannot update someone else’s task');
     }
